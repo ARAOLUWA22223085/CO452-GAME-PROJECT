@@ -34,6 +34,13 @@ class Player{
         c.fill()
         c.closePath
     }
+
+    update(){
+        this.draw();
+        this.position();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
 }
 
 
@@ -102,28 +109,29 @@ boundaries.forEach((boundary) => {
     boundary.draw()
 });
 
-player.draw();
+player.update();
 
 
 window.addEventListener('keyup', ({key}) => {
- console.log(key)
  switch(key){
 
     case 'w':
-        player.velocity.y -= 4;
+        player.velocity.y = -5;
     break;
 
     case 'a':
-        player.velocity.x -= 4;
+        player.velocity.x = -5;
     break;
 
     case 's':
-        player.velocity.y += 4;
+        player.velocity.y = 5;
     break;
 
     case 'd':
-        player.velocity.x += 4;
+        player.velocity.x = 5;
     break;
     
  }
+ console.log(player.velocity)
+
 }) 
