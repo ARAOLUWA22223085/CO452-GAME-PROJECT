@@ -29,7 +29,7 @@ class Player{
 
     draw(){
         c.beginPath()
-        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2)
+        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
         c.fillStyle = 'yellow';
         c.fill()
         c.closePath
@@ -37,7 +37,6 @@ class Player{
 
     update(){
         this.draw();
-        this.position();
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     }
@@ -105,33 +104,64 @@ map.forEach((row, i) => {
     })
 })
 
-boundaries.forEach((boundary) => {
-    boundary.draw()
-});
 
-player.update();
+function animate(){
+    requestAnimationFrame(animate)
+    c.clearRect(0, 0, canvas.width, canvas.height)
+    boundaries.forEach((boundary) => {
+        boundary.draw()
 
+        player.update();
 
-window.addEventListener('keyup', ({key}) => {
+    });
+}
+
+animate();
+
+window.addEventListener('keydown', ({key}) => {
  switch(key){
 
     case 'w':
-        player.velocity.y = -5;
+        player.velocity.y = -1;
     break;
 
     case 'a':
-        player.velocity.x = -5;
+        player.velocity.x = -1;
     break;
 
     case 's':
-        player.velocity.y = 5;
+        player.velocity.y = +1;
     break;
 
     case 'd':
-        player.velocity.x = 5;
+        player.velocity.x = +1;
     break;
     
  }
  console.log(player.velocity)
 
 }) 
+
+window.addEventListener('keyup', ({key}) => {
+    switch(key){
+   
+       case 'w':
+           player.velocity.y = 0;
+       break;
+   
+       case 'a':
+           player.velocity.x = 0;
+       break;
+   
+       case 's':
+           player.velocity.y = 0;
+       break;
+   
+       case 'd':
+           player.velocity.x = 0;
+       break;
+       
+    }
+    console.log(player.velocity)
+   
+   }) 
