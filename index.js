@@ -45,7 +45,7 @@ class Player {
 }
 
 class Pellet {
-    constructor({ position,  }) {
+    constructor({ position}) {
         this.position = position;
         this.radius = 3;
     }
@@ -126,7 +126,7 @@ map.forEach((row, i) => {
         console.log(symbol)
 
         switch (symbol) {
-            case "-":
+            case '-':
                 boundaries.push(new Boundary({
                     position: {
                         x: Boundary.width * j,
@@ -136,12 +136,12 @@ map.forEach((row, i) => {
                 })
             )
             break
-            case ".":
+            case '.':
                 pellets.push(new Pellet({
                     position: {
-                        x: (Boundary.width * j) + Boundary.width/2,
-                        y: (Boundary.height * i) + Boundary.height/2
-                    },
+                        x: (Boundary.width  * j) + Boundary.width / 2,
+                        y: (Boundary.height * i) + Boundary.height / 2
+                    }
                 })
             )
             break
@@ -234,10 +234,17 @@ function animate() {
         } else { player.velocity.x = +5}
     }      }
     
+for(let i = pellets.length - 1; 0 < i; i-- ){
+    const pellet = pellets[i]
+            pellet.draw()
 
-    pellets.forEach(pellet => {
-        pellet.draw()
-    })
+    if (Math.hypot(pellet.position.x - player.position.x,
+        pellet.position.y - player.position.y) < pellet.radius + player.radius) {
+        console.log('touching')
+
+        pellets.splice(i, 1)
+    }
+}
 
     boundaries.forEach((boundary) => {
         boundary.draw()
