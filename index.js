@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas');
 const scoreEl = document.querySelector('#scoreEl');
-console.log(scoreEl)
+// console.log(scoreEl)
 
 const c = canvas.getContext('2d');
 
@@ -102,7 +102,38 @@ const ghosts = [
             x:Ghost.speed,
             y:0
         }
-    }) 
+    }),
+    new Ghost ({
+        position:{
+            x: Boundary.width * 7 + Boundary.width * .5,
+            y: Boundary.height * 1 + Boundary.height * .5
+        },
+        velocity:{
+            x:Ghost.speed,
+            y:0
+        }
+    }),
+    new Ghost ({
+        position:{
+            x: Boundary.width  + Boundary.width * .5,
+            y: Boundary.height* 11 + Boundary.height * .5
+        },
+        velocity:{
+            x:Ghost.speed,
+            y:0
+        }
+    }),
+    new Ghost ({
+        position:{
+            x: Boundary.width * 11 + Boundary.width * .5,
+            y: Boundary.height * 14 + Boundary.height * .5
+        },
+        velocity:{
+            x:Ghost.speed,
+            y:0
+        }
+    }),
+     
 ]
 
 
@@ -166,7 +197,7 @@ image.src = './img/wall.png'
 
 map.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        console.log(symbol)
+        // console.log(symbol)
 
         switch (symbol) {
             case '-':
@@ -204,9 +235,10 @@ function circleCollidesWithRectangle({
         circle.position.x - circle.radius + circle.velocity.x <= rectangle.position.x + rectangle.width + padding
     )
 }
-
+let animationId
 function animate() {
-    requestAnimationFrame(animate)
+    animationId = requestAnimationFrame(animate)
+    console.log(animationId)
     c.clearRect(0, 0, canvas.width, canvas.height)
 
     if (keys.w.pressed && lastKey === 'w') {
@@ -284,7 +316,7 @@ for(let i = pellets.length - 1; 0 < i; i-- ){
 
     if (Math.hypot(pellet.position.x - player.position.x,
         pellet.position.y - player.position.y) < pellet.radius + player.radius) {
-        console.log('touching')
+        // console.log('touching')
 
         pellets.splice(i, 1)
         score += 10;
@@ -301,7 +333,7 @@ for(let i = pellets.length - 1; 0 < i; i-- ){
                 rectangle: boundary
             })
         ) {
-            console.log('we are colliding')
+            // console.log('we are colliding')
             player.velocity.x = 0
             player.velocity.y = 0
         }
@@ -310,6 +342,12 @@ for(let i = pellets.length - 1; 0 < i; i-- ){
 
     ghosts.forEach((ghost) => {
         ghost.update()
+
+        if (Math.hypot(ghost.position.x - player.position.x,
+            ghost.position.y - player.position.y) < ghost.radius + player.radius) {
+                cancelAnimationFrame(animationId)
+                console.log('you lose. Loser.')
+            }
 
         const collisions = []
         boundaries.forEach((boundary) => {
@@ -374,23 +412,23 @@ for(let i = pellets.length - 1; 0 < i; i-- ){
             ghost.prevCollisions = collisions
         }
         if(JSON.stringify(collisions) !== JSON.stringify(ghost.prevCollisions)){
-            console.log('gogo')
+            // console.log('gogurt baybee')
 
             if(ghost.velocity.x  > 0) ghost.prevCollisions.push('right')
             else if(ghost.velocity.x  < 0) ghost.prevCollisions.push('left')
             else if(ghost.velocity.y  < 0) ghost.prevCollisions.push('up')
             else if(ghost.velocity.y  > 0) ghost.prevCollisions.push('down')
 
-            console.log(collisions)
-            console.log(ghost.prevCollisions)
+            // console.log(collisions)
+            // console.log(ghost.prevCollisions)
 
             const pathways = ghost.prevCollisions.filter((collision) => {
                 return !collisions.includes(collision)
             })
-            console.log({ pathways })
+            // console.log({ pathways })
 
             const direction = pathways [Math.floor(Math.random() * pathways.length)]
-            console.log({ direction })
+            // console.log({ direction })
 
             switch(direction){
                 case 'down':
@@ -467,3 +505,4 @@ window.addEventListener('keyup', ({ key }) => {
 
     }
 }) 
+
