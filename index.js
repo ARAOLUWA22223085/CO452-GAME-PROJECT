@@ -7,6 +7,10 @@ const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+var audio = new Audio('audio/gamesfx.mp3');
+audio.play();
+
+
 class Boundary {
     static width = 40
     static height = 40
@@ -41,8 +45,8 @@ class Player {
         c.translate(-this.position.x, -this.position.y)
 
         c.beginPath()
-        c.arc(this.position.x, this.position.y, this.radius, this.radians , Math.PI * 2 - this.radians)
-        c.lineTo (this.position.x, this.position.y)
+        c.arc(this.position.x, this.position.y, this.radius, this.radians, Math.PI * 2 - this.radians)
+        c.lineTo(this.position.x, this.position.y)
         c.fillStyle = 'yellow';
         c.fill()
         c.closePath
@@ -55,9 +59,9 @@ class Player {
         this.position.y += this.velocity.y;
 
         if (this.radians < 0 || this.radians > 0.75)
-            this. openRate = -this.openRate
-            this.radians += this.openRate
-        
+            this.openRate = -this.openRate
+        this.radians += this.openRate
+
     }
 }
 
@@ -370,11 +374,12 @@ function animate() {
             else {
                 cancelAnimationFrame(animationId)
                 console.log('you lose. Loser.')
+                audio.pause();
             }
         }
     }
 
-    if(pellets.length === 0 || ghosts.length === 0){
+    if (pellets.length === 0 || ghosts.length === 0) {
         cancelAnimationFrame(animationId)
         console.log('Oh wow, you actually won? Good job Chump.')
     }
@@ -539,10 +544,10 @@ function animate() {
         }
     })
 
-    if(player.velocity.x > 0) player.rotation = 0
-    else if(player.velocity.x < 0) player.rotation = Math.PI
-    else if(player.velocity.y > 0) player.rotation = Math.PI / 2
-    else if(player.velocity.y < 0) player.rotation = Math.PI *1.5
+    if (player.velocity.x > 0) player.rotation = 0
+    else if (player.velocity.x < 0) player.rotation = Math.PI
+    else if (player.velocity.y > 0) player.rotation = Math.PI / 2
+    else if (player.velocity.y < 0) player.rotation = Math.PI * 1.5
 
 }
 
