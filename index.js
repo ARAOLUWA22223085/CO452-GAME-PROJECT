@@ -9,7 +9,15 @@ canvas.height = innerHeight;
 
 var audio1 = new Audio('audio/gamesfx.mp3');
 var audio2 = new Audio('audio/gameOver.mp3');
+var audio3 = new Audio('audio/powerup.mp3');
+var audio4 = new Audio('audio/gameOver.mp3');
+var audio5 = new Audio('audio/victory.mp3');
+
+
+
 audio1.play();
+audio1.play();
+
 
 
 class Boundary {
@@ -370,6 +378,7 @@ function animate() {
             ghost.position.y - player.position.y) < ghost.radius + player.radius) {
 
             if (ghost.scared == true) {
+                // audio4.play();
                 ghosts.splice(i, 1)
             }
             else {
@@ -384,6 +393,9 @@ function animate() {
     if (pellets.length === 0 || ghosts.length === 0) {
         cancelAnimationFrame(animationId)
         console.log('Oh wow, you actually won? Good job Chump.')
+        audio1.pause();
+        audio5.play();
+
     }
 
     for (let i = powerUps.length - 1; 0 <= i; i--) {
@@ -404,6 +416,7 @@ function animate() {
             })
 
             score += 20;
+            audio3.play();
             scoreEl.innerHTML = score;
         }
 
