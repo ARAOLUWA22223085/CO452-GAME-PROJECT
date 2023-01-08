@@ -7,8 +7,9 @@ const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-var audio = new Audio('audio/gamesfx.mp3');
-audio.play();
+var audio1 = new Audio('audio/gamesfx.mp3');
+var audio2 = new Audio('audio/gameOver.mp3');
+audio1.play();
 
 
 class Boundary {
@@ -374,7 +375,8 @@ function animate() {
             else {
                 cancelAnimationFrame(animationId)
                 console.log('you lose. Loser.')
-                audio.pause();
+                audio1.pause();
+                audio2.play();
             }
         }
     }
