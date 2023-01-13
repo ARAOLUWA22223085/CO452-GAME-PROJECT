@@ -7,19 +7,17 @@ const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+//instantiating various in game audios
 var audio1 = new Audio('audio/gamesfx.mp3');
 var audio2 = new Audio('audio/gameOver.mp3');
 var audio3 = new Audio('audio/powerup.mp3');
-var audio4 = new Audio('audio/gameOver.mp3');
+var audio4 = new Audio('audio/ghostdeath.mp3');
 var audio5 = new Audio('audio/victory.mp3');
 
-
-
 audio1.play();
 audio1.play();
 
-
-
+// instantiating various classess
 class Boundary {
     static width = 40
     static height = 40
@@ -131,7 +129,8 @@ class PowerUp {
     }
 }
 
-
+// instantiating various arrays to hold the information about their respective contents,
+// i.e pellets containing code for creating and loading pellets on screen
 const pellets = []
 
 const boundaries = []
@@ -199,6 +198,7 @@ const player = new Player({
     }
 })
 
+// setting the default state fo keys being pressed to false so the player is still on game load
 const keys = {
     w: {
         pressed: false
@@ -217,9 +217,10 @@ const keys = {
 let lastKey = ''
 let score = 0
 
+// creates an array used to load a map by using various symbols to represent different 
 const map = [
     ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',],
-    ['-', '.', '.', '.', '.', '.', '.', '.', '.', '-', '.', '.', '.', '.', '.', '.', '.', '.', '-',],
+    ['-', 'o', '.', '.', '.', '.', '.', '.', '.', '-', '.', '.', '.', '.', '.', '.', '.', '.', '-',],
     ['-', '.', '-', '-', '-', '.', '-', '-', '.', '-', '.', '-', '-', '.', '-', '-', '-', '.', '-',],
     ['-', '.', '-', ' ', '-', '.', '-', '-', '.', '-', '.', '-', '-', '.', '-', ' ', '-', '.', '-',],
     ['-', '.', '-', '-', '-', '.', '-', '-', '.', '-', '.', '-', '-', '.', '-', '-', '-', '.', '-',],
@@ -378,12 +379,13 @@ function animate() {
             ghost.position.y - player.position.y) < ghost.radius + player.radius) {
 
             if (ghost.scared == true) {
-                // audio4.play();
+                audio4.play();
                 ghosts.splice(i, 1)
             }
             else {
                 cancelAnimationFrame(animationId)
                 console.log('you lose. Loser.')
+                gameover();
                 audio1.pause();
                 audio2.play();
             }
@@ -617,3 +619,10 @@ window.addEventListener('keyup', ({ key }) => {
     }
 })
 
+function gameover() {
+    var x = document.createElement("IMG");
+    x.setAttribute("src", "img/gameover.jpg");
+    x.setAttribute("width", "600");
+    x.setAttribute("height", "600");
+    document.body.appendChild(x);
+  }
